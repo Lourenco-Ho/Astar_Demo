@@ -51,7 +51,7 @@ def on_board_unit_clicked(frame_class, coor):
             frame_class.board[coor["y"]][coor["x"]] = 0
 
     graph = a_star.spawn_graph(frame_class)
-    path = a_star.find_path(graph, frame_class.start, frame_class.dest)
+    path = a_star.find_path(frame_class, graph, frame_class.start, frame_class.dest)
 
     #display the path
     if path != None:

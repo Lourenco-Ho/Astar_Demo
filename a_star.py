@@ -1,19 +1,15 @@
 import heapq
 import math
+import show_gui
 
 cost_of_origin = 0
+diagonal_move = True
 
-def heuristic(a, dest): #估計 a 到 dest 的代價
-    dx = abs(a[0] - dest[0])
-    dy = abs(a[1] - dest[1])
-    D= 1
-    D2 =math.sqrt(2)
-    return D * (dx + dy) + (D2 - 2 * D) * min(dx, dy)
-    #return ((a[0] - b[0]) ** 2 + (a[1] - a[1]) ** 2) ** 0.5 #充許斜向移動
-    #return abs(a[0] - b[0]) + abs(a[1] - b[1]) #不充許斜向移動
+def heuristic(start, dest): #估計 a 到 dest 的代價
+    return abs(start[0] - dest[0]) + abs(start[1] - dest[1]) 
 
 
-def find_path(graph, origin_coor, dest_coor):
+def find_path(frame_class, graph, origin_coor, dest_coor):
     if graph == {} or graph == None: #如果 graph 是空時, 終止function
         return None
     
@@ -21,7 +17,7 @@ def find_path(graph, origin_coor, dest_coor):
     closed_set = set() #到訪過的地點
     heapq.heappush(open_list, (cost_of_origin, origin_coor))
 
-    
+    count = 0
     while open_list: #當 open list 不是空時, 做...
         current_cost, current_node = heapq.heappop(open_list)
 
@@ -42,11 +38,18 @@ def find_path(graph, origin_coor, dest_coor):
                 continue #跳過這一次的 loop
 
             #總成本 = 現在已用的成本 + 到這個 neighbor 的成本 + 估計到 dest 的成本
-            total_cost = current_cost + cost + heuristic(neighbor, dest_coor)
+            total_cost = current_cost+cost + heuristic(neighbor, dest_coor)
+
+            input("press enter:")
+            show_gui.show_run(frame_class, {"x":neighbor[0],"y":neighbor[1]}, count)
+            print("current_node", current_node)
+            print("neighbor", neighbor)
+            print("current_cost", current_cost)
+            print("total_cost", total_cost,"\n")
             
             heapq.heappush(open_list, (total_cost, neighbor)) 
             graph[neighbor][1] = current_node
-
+        count+=1
     return None
 
 
@@ -57,8 +60,11 @@ def spawn_graph(frame_class):
         for row_index, row_data in enumerate(frame_class.board):
             for column_index, column_data in enumerate(frame_class.board[row_index]):
                 node_dict = {}
-                direction = ["U", "UR", "R", "DR", "D", "DL", "L", "UL"]
-                #direction = ["U", "R", "D", "L"]
+                direction = None
+                if diagonal_move:
+                    direction = ["U", "UR", "R", "DR", "D", "DL", "L", "UL"]
+                else:
+                    direction = ["U", "R", "D", "L"]
 
                 if column_data != 1: #if current node is not a block
                     for current_dir in direction:

@@ -54,6 +54,15 @@ def route_config(text):
     }
     return config
 
+def run_config(text):
+    config = {
+        "text" : text,
+        "font" : ('Arial', 45, 'bold'),
+        "fg" : "black",
+        "bg" : "blue",
+    }
+    return config
+
 block_config = {
     "text" : "",
     "font" : ('Arial', 45, 'bold'),

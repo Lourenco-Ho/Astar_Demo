@@ -41,3 +41,6 @@ def show_dest(frame_class, coor):
 
 def show_route(frame_class, coor, text):
     frame_class.board_label[ coor["y"] ] [ coor["x"] ].config(**board_appearance.route_config(text))
+
+def show_run(frame_class, coor, text):
+    frame_class.board_label[ coor["y"] ] [ coor["x"] ].config(**board_appearance.run_config(text))

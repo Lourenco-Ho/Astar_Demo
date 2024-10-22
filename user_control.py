@@ -4,6 +4,7 @@ import numpy as np
 
 #import my labrary
 import a_star
+import new_a_star
 keycode = {
     "orig" : 49, #keyboard 1
     "dest" : 50 #keyboard 2
@@ -50,8 +51,10 @@ def on_board_unit_clicked(frame_class, coor):
             show_gui.show_normal(frame_class, coor)
             frame_class.board[coor["y"]][coor["x"]] = 0
 
-    graph = a_star.spawn_graph(frame_class)
-    path = a_star.find_path(frame_class, graph, frame_class.start, frame_class.dest)
+    print(np.matrix(frame_class.board))
+    #graph = a_star.spawn_graph(frame_class)
+    #path = a_star.find_path(frame_class, graph, frame_class.start, frame_class.dest)
+    path = new_a_star.a_star(frame_class.start, frame_class.dest, frame_class.board)
 
     #display the path
     if path != None:

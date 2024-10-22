@@ -39,7 +39,7 @@ def find_path(frame_class, graph, origin_coor, dest_coor):
                 continue #跳過這一次的 loop
 
             #總成本 = 現在已用的成本 + 到這個 neighbor 的成本 + 估計到 dest 的成本
-            total_cost = current_cost+cost + heuristic(neighbor, dest_coor)
+            total_cost = current_cost + cost + heuristic(neighbor, dest_coor)
 
             input("press enter:")
             show_gui.show_run(frame_class, {"x":current_node[0],"y":current_node[1]}, "X")

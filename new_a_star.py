@@ -1,4 +1,5 @@
 import heapq  # 導入堆隊列算法以實現優先隊列
+import numpy as np
 
 class Node:
     def __init__(self, position, g=0, h=0):
@@ -15,6 +16,7 @@ def heuristic(a, b):
     return max(abs(a[0] - b[0]), abs(a[1] - b[1]))
 
 def a_star(start, goal, grid):
+    print(np.matrix(grid))
     open_set = []  # 待探索的節點的優先隊列
     heapq.heappush(open_set, Node(start))  # 將起始節點添加到開放集合中
     came_from = {}  # 跟蹤路徑的字典
@@ -36,7 +38,7 @@ def a_star(start, goal, grid):
             neighbor_pos = (current.position[0] + dx, current.position[1] + dy)  # 計算鄰居位置
 
             # 檢查鄰居是否在網格內且可走（0）
-            if (0 <= neighbor_pos[0] < len(grid)) and (0 <= neighbor_pos[1] < len(grid[0])) and grid[neighbor_pos[0]][neighbor_pos[1]] == 0:
+            if (0 <= neighbor_pos[0] < len(grid)) and (0 <= neighbor_pos[1] < len(grid[0])) and grid[neighbor_pos[1]][neighbor_pos[0]] == 0:
                 # 計算到達鄰居節點的成本
                 tentative_g_score = g_score[current.position] + (1.4 if abs(dx) + abs(dy) == 2 else 1)
 
@@ -49,6 +51,8 @@ def a_star(start, goal, grid):
                     # 如果鄰居尚未在開放集合中，則添加它
                     if neighbor_pos not in [n.position for n in open_set]:
                         heapq.heappush(open_set, Node(neighbor_pos, tentative_g_score, heuristic(neighbor_pos, goal)))
+            else:
+                print("blocked", neighbor_pos)
 
     return None  # 如果未找到路徑，則返回 None
 

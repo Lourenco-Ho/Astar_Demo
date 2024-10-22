@@ -6,7 +6,8 @@ cost_of_origin = 0
 diagonal_move = True
 
 def heuristic(start, dest): #估計 a 到 dest 的代價
-    return abs(start[0] - dest[0]) + abs(start[1] - dest[1]) 
+    #return abs(start[0] - dest[0]) + abs(start[1] - dest[1])
+    return ((start[0] - dest[0]) ** 2 + (start[1] - dest[1]) ** 2) ** 0.5
 
 
 def find_path(frame_class, graph, origin_coor, dest_coor):
@@ -41,7 +42,8 @@ def find_path(frame_class, graph, origin_coor, dest_coor):
             total_cost = current_cost+cost + heuristic(neighbor, dest_coor)
 
             input("press enter:")
-            show_gui.show_run(frame_class, {"x":neighbor[0],"y":neighbor[1]}, count)
+            show_gui.show_run(frame_class, {"x":current_node[0],"y":current_node[1]}, "X")
+            show_gui.show_run(frame_class, {"x":neighbor[0],"y":neighbor[1]}, str(count)+"\n"+str(round(total_cost,2)))
             print("current_node", current_node)
             print("neighbor", neighbor)
             print("current_cost", current_cost)
@@ -107,7 +109,6 @@ def spawn_graph(frame_class):
                             if (row_index > 0) and (column_index > 0): #check current row is it at the boundary
                                 if frame_class.board[row_index -1][column_index -1] == 0: #if target node is a normal node
                                     node_dict[(column_index -1, row_index -1)] = 1
-
                 graph[(column_index, row_index)] = [node_dict, None]
 
         return graph

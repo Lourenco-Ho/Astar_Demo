@@ -57,7 +57,7 @@ def route_config(text):
 def run_config(text):
     config = {
         "text" : text,
-        "font" : ('Arial', 45, 'bold'),
+        "font" : ('Arial', 12, 'bold'),
         "fg" : "black",
         "bg" : "blue",
     }
